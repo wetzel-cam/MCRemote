@@ -36,10 +36,10 @@ class RemoteConnection:
         self.password = password_data
 
     def advancement(self, action_choice, target, advancement_choice):
-        actions = {'grant', 'revoke'}
-        advancement_targets = {'only', 'until', 'from', 'through', 'everything'}
+        actions = ['grant', 'revoke']
+        advancement_targets = ['only', 'until', 'from', 'through', 'everything']
         # Make a json file with all the advancements and have a method decode and set this key-pair
-        advancements_list = []
+        advancements_list = {}
 
         action = actions[action_choice]
         advancement_target = advancement_targets[advancements_list]
@@ -115,8 +115,12 @@ class RemoteConnection:
     def function(self):
         pass
 
-    def gamemode(self):
-        pass
+    def gamemode(self, gamemode_choice, target):
+        gamemodes = ['survival', 'creative', 'adventure', 'spectator']
+
+        mode = gamemodes[gamemode_choice]
+
+        return self.client.command('/gamemode ' + mode + ' ' + target)
 
     def gamerule(self):
         pass
