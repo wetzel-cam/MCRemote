@@ -1,0 +1,8 @@
+# Dir's to ignore
+/.idea
+
+# File types to ignore
+*.info
+*.iml
+
+# Specific files to ignore
