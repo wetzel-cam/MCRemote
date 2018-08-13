@@ -264,11 +264,11 @@ class RemoteConnection:
 
 
 file = open("server.info", 'r')
-info = {}
+info = []
 i = 0
 
 for line in file:
-    info[i] = line.strip('\n')
+    info.append(line.strip('\n'))
     i += 1
 
 client = RemoteConnection(info[0], info[1])
