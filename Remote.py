@@ -2,44 +2,46 @@ from mcrcon import MCRcon
 
 
 class RemoteConnection:
+    # TODO: Create import system for json data to advancement_list
+    advancements_list = {}
+
     def __init__(self, host=None, password=None):
         if host is not None and password is not None:
-            self.host = host
-            self.password = password
-            self.client = MCRcon(host, password)
+            self._host = host
+            self._password = password
+            self._client = MCRcon(host, password)
             self.connect()
         else:
-            self.host = None
-            self.password = None
-            self.client = None
+            self._host = None
+            self._password = None
+            self._client = None
 
     def connect(self):
-        if self.client is None:
-            if self.host is not None and self.password is not None:
-                self.client = MCRcon(self.host, self.password)
+        if self._client is None:
+            if self._host is not None and self._password is not None:
+                self._client = MCRcon(self._host, self._password)
             else:
                 self.set_host(input("Enter Host IP: "))
                 self.set_password(input("Enter Password: "))
-                self.client = MCRcon(self.host, self.password)
+                self._client = MCRcon(self._host, self._password)
 
-            self.client.connect()
+            self._client.connect()
         else:
-            self.client.connect()
+            self._client.connect()
 
     def disconnect(self):
-        self.client.disconnect()
+        self._client.disconnect()
 
     def set_host(self, host_data):
-        self.host = host_data
+        self._host = host_data
 
     def set_password(self, password_data):
-        self.password = password_data
+        self._password = password_data
 
     def advancement(self, action_choice, target, advancement_choice):
         actions = ['grant', 'revoke']
         advancement_targets = ['only', 'until', 'from', 'through', 'everything']
         # Make a json file with all the advancements and have a method decode and set this key-pair
-        advancements_list = {}
 
         action = actions[action_choice]
         advancement_target = advancement_targets[advancements_list]
@@ -61,11 +63,11 @@ class RemoteConnection:
         elif action == 'revoke':
             pass
 
-    def ban(self, reason, targets=...):
-        pass
+    def ban(self, targets, reason='No reason given!'):
+        return self._client.command('/ban ' + targets + ' ' + reason)
 
     def ban_ip(self, target, reason):
-        pass
+        return self._client.command('/ban ' + target + ' ' + reason)
 
     def banlist(self, choice):
         pass
@@ -92,7 +94,7 @@ class RemoteConnection:
         pass
 
     def deop(self, player):
-        return self.client.command('/deop ' + player)
+        return self._client.command('/deop ' + player)
 
     def difficulty(self, choice):
         pass
@@ -120,7 +122,7 @@ class RemoteConnection:
 
         mode = gamemodes[gamemode_choice]
 
-        return self.client.command('/gamemode ' + mode + ' ' + target)
+        return self._client.command('/gamemode ' + mode + ' ' + target)
 
     def gamerule(self):
         pass
@@ -150,10 +152,10 @@ class RemoteConnection:
         pass
 
     def op(self, player):
-        return self.client.command('/op ' + player)
+        return self._client.command('/op ' + player)
 
-    def pardon(self):
-        pass
+    def pardon(self, target):
+        return self._client.command('/pardon ' + target)
 
     def pardon_ip(self):
         pass
@@ -183,8 +185,7 @@ class RemoteConnection:
         pass
 
     def say(self, message):
-        response = self.client.command('/say ' + message)
-        print(response)
+        print(self._client.command('/say ' + message))
 
     def scoreboard(self):
         pass
@@ -243,8 +244,10 @@ class RemoteConnection:
     def w(self):
         pass
 
-    def weather(self):
-        pass
+    def weather(self, weather_choice=0, duration=None):
+        weather_conditions = ['clear', 'rain', 'thunder']
+
+        return self._client.command('/weather ' + weather_conditions[weather_choice])
 
     def whitelist(self):
         pass
@@ -272,3 +275,4 @@ for line in file:
     i += 1
 
 client = RemoteConnection(info[0], info[1])
+client.weather()
