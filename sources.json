@@ -3,5 +3,6 @@
   "Protocol Wiki": "https://wiki.vg/Protocol",
   "MCRcon Source File/Doc": "https://github.com/Uncaught-Exceptions/MCRcon/blob/master/mcrcon.py",
   "MC Advancements list": "https://minecraft.gamepedia.com/Advancements",
-  "JSON Syntax Doc": "https://www.json.org/"
+  "JSON Syntax Doc": "https://www.json.org/",
+  "Setuptools Docs": "https://setuptools.readthedocs.io/en/latest/"
 }
