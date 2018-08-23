@@ -1,9 +1,8 @@
 from mcrcon import MCRcon
-
+import json
 
 class RemoteConnection:
     # TODO: Create import system for json data to advancement_list
-    advancements_list = {}
 
     def __init__(self, host=None, password=None):
         if host is not None and password is not None:
@@ -15,6 +14,14 @@ class RemoteConnection:
             self._host = None
             self._password = None
             self._client = None
+
+        self._adv_file, self.adv_categories = self._load_advancements()
+
+    def _get_advancement(self, category, general_name):
+        return self._adv_file[self.adv_categories[category]][general_name]
+
+    def _load_advancements(self):
+        return json.loads(open('advancements.json').read()), list(json.loads(open('advancements.json').read()))
 
     def connect(self):
         if self._client is None:
@@ -38,17 +45,18 @@ class RemoteConnection:
     def set_password(self, password_data):
         self._password = password_data
 
-    def advancement(self, action_choice, target, advancement_choice):
+    def advancement(self, action_choice, target, advancement_target_choice, advancement):
         actions = ['grant', 'revoke']
         advancement_targets = ['only', 'until', 'from', 'through', 'everything']
         # Make a json file with all the advancements and have a method decode and set this key-pair
 
         action = actions[action_choice]
-        advancement_target = advancement_targets[advancements_list]
+        advancement_target = advancement_targets[advancement_target_choice]
 
         if action == 'grant':
             if advancement_target == 'only':
-                pass
+                sub_cmd = target + ' ' + 'only ' + 'minecraft:' + advancement['id']
+
             elif advancement_target == 'until':
                 pass
             elif advancement_target == 'from':
@@ -59,9 +67,11 @@ class RemoteConnection:
                 pass
             else:
                 pass
-            pass
+            cmd = 'grant ' + sub_cmd
         elif action == 'revoke':
             pass
+
+        return self._client.command('/advancement ' + cmd)
 
     def ban(self, targets, reason='No reason given!'):
         return self._client.command('/ban ' + targets + ' ' + reason)
@@ -275,4 +285,4 @@ for line in file:
     i += 1
 
 client = RemoteConnection(info[0], info[1])
-client.weather()
+print(client.advancement(0, 'cam_the_cam', 0, client._get_advancement(0, 'mine_stone')))

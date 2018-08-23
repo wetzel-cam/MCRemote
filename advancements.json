@@ -4,7 +4,7 @@
         "name": "Minecraft",
         "parent": "None",
         "id": "story/root",
-        "category": "minecraft",
+        "category": "minecraft"
       },
 
       "mine_stone" :{
