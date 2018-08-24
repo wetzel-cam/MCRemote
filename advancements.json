@@ -4,35 +4,35 @@
         "name": "Minecraft",
         "parent": "None",
         "id": "story/root",
-        "category": "minecraft"
+        "namespace": "minecraft"
       },
 
       "mine_stone" :{
         "name": "Stone Age",
         "parent": "Minecraft",
         "id": "story/mine_stone",
-        "category": "minecraft"
+        "namespace": "minecraft"
       },
 
       "upgrade_tools": {
         "name": "Getting an Upgrade",
         "parent": "Stone Age",
         "id": "story/upgrade_tools",
-        "category": "minecraft"
+        "namespace": "minecraft"
       },
 
       "smelt_iron": {
         "name": "Acquire Hardware",
         "parent": "Getting an Upgrade",
         "id": "story/smelt_iron",
-        "category": "minecraft"
+        "namespace": "minecraft"
       },
 
       "example_syntax":{
         "name": "",
         "parent": "",
         "id": "",
-        "category": "minecraft"
+        "namespace": "minecraft"
       }
   },
 

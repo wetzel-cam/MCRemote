@@ -1,6 +1,7 @@
 from mcrcon import MCRcon
 import json
 
+
 class RemoteConnection:
     # TODO: Create import system for json data to advancement_list
 
@@ -73,6 +74,7 @@ class RemoteConnection:
 
         return self._client.command('/advancement ' + cmd)
 
+    # TODO: Expand ban/ip capabilities
     def ban(self, targets, reason='No reason given!'):
         return self._client.command('/ban ' + targets + ' ' + reason)
 
@@ -137,7 +139,10 @@ class RemoteConnection:
     def gamerule(self):
         pass
 
-    def give(self):
+    # Possibly set the data of the game (advancements, items, players, etc) as a separate script/class to be updated
+    # in real time and the client calls from that data list
+    def give(self, target, item, count):
+        return self._client.command('/give ' + target + ' ' + item + ' ' + count)
         pass
 
     def help(self):
@@ -285,4 +290,4 @@ for line in file:
     i += 1
 
 client = RemoteConnection(info[0], info[1])
-print(client.advancement(0, 'cam_the_cam', 0, client._get_advancement(0, 'mine_stone')))
+print(client.give('cam_the_cam', 'minecraft:oak_log', '1'))
