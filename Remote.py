@@ -1,6 +1,5 @@
 from mcrcon import MCRcon
-import json
-
+from Data import AdvancementData as adv_data
 
 class RemoteConnection:
     # TODO: Create import system for json data to advancement_list
@@ -15,14 +14,6 @@ class RemoteConnection:
             self._host = None
             self._password = None
             self._client = None
-
-        self._adv_file, self.adv_categories = self._load_advancements()
-
-    def _get_advancement(self, category, general_name):
-        return self._adv_file[self.adv_categories[category]][general_name]
-
-    def _load_advancements(self):
-        return json.loads(open('advancements.json').read()), list(json.loads(open('advancements.json').read()))
 
     def connect(self):
         if self._client is None:
@@ -46,18 +37,10 @@ class RemoteConnection:
     def set_password(self, password_data):
         self._password = password_data
 
-    def advancement(self, action_choice, target, advancement_target_choice, advancement):
-        actions = ['grant', 'revoke']
-        advancement_targets = ['only', 'until', 'from', 'through', 'everything']
-        # Make a json file with all the advancements and have a method decode and set this key-pair
-
-        action = actions[action_choice]
-        advancement_target = advancement_targets[advancement_target_choice]
-
+    def advancement(self, action, target, advancement_target, advancement, to_advancement=None):
         if action == 'grant':
             if advancement_target == 'only':
-                sub_cmd = target + ' ' + 'only ' + 'minecraft:' + advancement['id']
-
+                args = action + advancement_target + target + advancement
             elif advancement_target == 'until':
                 pass
             elif advancement_target == 'from':
@@ -67,12 +50,15 @@ class RemoteConnection:
             elif advancement_target == 'everything':
                 pass
             else:
-                pass
-            cmd = 'grant ' + sub_cmd
+                print(advancement_target + " is not a valid advancement target")
+                return None
         elif action == 'revoke':
             pass
+        else:
+            print(action + " is not a valid action")
+            return None
 
-        return self._client.command('/advancement ' + cmd)
+        return self._client.command('/advancement ' + args)
 
     # TODO: Expand ban/ip capabilities
     def ban(self, targets, reason='No reason given!'):
@@ -277,7 +263,7 @@ class RemoteConnection:
 # ------------------------------
 # <ip>
 # <password>
-# ------------------------------
+# ------------------------------No proper action given!
 # I did this so I can upload the code to Github with out people seeing my server info; no peeky!
 
 
@@ -290,4 +276,6 @@ for line in file:
     i += 1
 
 client = RemoteConnection(info[0], info[1])
-print(client.give('cam_the_cam', 'minecraft:oak_log', '1'))
+print(client.advancement('grant', 'cam_the_cam', 'only', adv_data.get_advancement_ingame_id(adv_data.get_advancement(
+    'minecraft', 'root'
+))))

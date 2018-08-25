@@ -1,20 +1,47 @@
+import json
 # Obtain advancements info
 # Obtain items info
 # Obtain players info
 # etc.
 
 
-class Data:
-    # TODO: Write import for advancement data
-    advancements_data = None
+class AdvancementData:
+    _advancements_data = json.loads(open('./Data/advancements.json').read())
 
-    # TODO: Write imports for each advancement data category
-    story_advancements = None
-    nether_advancements = None
-    end_advancements = None
-    custom_advancements = None
+    story_advancements = _advancements_data['story']
+    nether_advancements = _advancements_data['nether']
+    end_advancements = _advancements_data['end']
+    custom_advancements = _advancements_data['custom']
 
-    # TODO: Create JSON data for minecraft items (possible script to automate process for new items?)
+    @staticmethod
+    def _get_advancement_id(advancement):
+        return advancement['id']
 
-    def import_data(self):
-        pass
+    @staticmethod
+    def _get_advancement_namespace(advancement):
+        return advancement['namespace']
+
+    @staticmethod
+    def get_advancement(category, advancement):
+        if category == 'story':
+            adv = AdvancementData.story_advancements[advancement]
+        elif category == 'nether':
+            adv = AdvancementData.nether_advancements[advancement]
+        elif category == 'end':
+            adv = AdvancementData.end_advancements[advancement]
+        elif category == 'custom':
+            adv = AdvancementData.custom_advancements[advancement]
+
+        return adv
+
+    @staticmethod
+    def get_advancement_ingame_id(advancement):
+        return AdvancementData._get_advancement_namespace(advancement) + ':' + \
+               AdvancementData._get_advancement_id(advancement)
+
+class ItemData:
+    pass
+
+
+class PlayerData:
+    pass
