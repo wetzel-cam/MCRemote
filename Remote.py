@@ -263,7 +263,7 @@ class RemoteConnection:
 # ------------------------------
 # <ip>
 # <password>
-# ------------------------------No proper action given!
+# ------------------------------
 # I did this so I can upload the code to Github with out people seeing my server info; no peeky!
 
 
