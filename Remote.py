@@ -38,9 +38,9 @@ class RemoteConnection:
         self._password = password_data
 
     def advancement(self, action, target, advancement_target, advancement, to_advancement=None):
-        if action == 'grant':
+        if action == 'grant' or action == 'revoke':
             if advancement_target == 'only':
-                args = action + advancement_target + target + advancement
+                args = action + ' ' + target + ' ' + advancement_target + ' ' + advancement
             elif advancement_target == 'until':
                 pass
             elif advancement_target == 'from':
@@ -52,8 +52,6 @@ class RemoteConnection:
             else:
                 print(advancement_target + " is not a valid advancement target")
                 return None
-        elif action == 'revoke':
-            pass
         else:
             print(action + " is not a valid action")
             return None
@@ -61,10 +59,11 @@ class RemoteConnection:
         return self._client.command('/advancement ' + args)
 
     # TODO: Expand ban/ip capabilities
+    # TODO: Make targets an array and have the command iterate through each object in array
     def ban(self, targets, reason='No reason given!'):
         return self._client.command('/ban ' + targets + ' ' + reason)
 
-    def ban_ip(self, target, reason):
+    def ban_ip(self, target, reason='No reason given!'):
         return self._client.command('/ban ' + target + ' ' + reason)
 
     def banlist(self, choice):
@@ -276,6 +275,6 @@ for line in file:
     i += 1
 
 client = RemoteConnection(info[0], info[1])
-print(client.advancement('grant', 'cam_the_cam', 'only', adv_data.get_advancement_ingame_id(adv_data.get_advancement(
-    'minecraft', 'root'
+print(client.advancement('revoke', 'cam_the_cam', 'only', adv_data.get_advancement_ingame_id(adv_data.get_advancement(
+    'story', 'root'
 ))))
